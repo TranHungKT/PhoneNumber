@@ -3,19 +3,21 @@ import {
   createAppContainer,
   createSwitchNavigator,
 } from 'react-navigation'
-import {createStackNavigator} from 'react-navigation-stack'
-import {createBottomTabNavigator} from 'react-navigation-tabs' 
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import store from './Redux/store'
-import {Provider} from 'react-redux'
-import AddContactScreen from './screens/AddContactScreen'
-import SettingsScreen from './screens/SettingsScreen'
-import ContactListScreen from './screens/ContactListScreen'
-import ContactDetailsScreen from './screens/ContactDetailsScreen'
-import LoginScreen from './screens/LoginScreen'
-import {fetchUsers} from './api'
-import contacts from './contacts'
-
+import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs' ;
+import {Ionicons} from '@expo/vector-icons';
+import store from './Redux/store';
+import {Provider} from 'react-redux';
+import AddContactScreen from './screens/AddContactScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import ContactListScreen from './screens/ContactListScreen';
+import ContactDetailsScreen from './screens/ContactDetailsScreen';
+import LoginScreen from './screens/LoginScreen';
+// import {fetchUsers} from './api'
+// import contacts from './contacts'
+import * as firebase from 'firebase';
+import {firebaseConfig} from './config';
+firebase.initializeApp(firebaseConfig);
 const MainStack = createStackNavigator(
   {
     ContactList: ContactListScreen,
@@ -35,7 +37,7 @@ const MainStack = createStackNavigator(
 
 MainStack.navigationOptions = {
   tabBarIcon: ({focused, tintColor}) => (
-    <Ionicons name={`ios-contacts${focused ? '' : '-outline'}`}size={25} color={tintColor} />
+    <Ionicons name={`ios-contacts${focused ? '' : '-ios-settings'}`}size={25} color={tintColor} />
   ),
 }
 
@@ -55,12 +57,12 @@ const AppNavigator = createSwitchNavigator({
   Login: LoginScreen,
   Main: MainTabs,
 })
-const AppContainer = createAppContainer(MainTabs)
+const AppContainer = createAppContainer(AppNavigator)
 
 export default class App extends React.Component {
-  state = {
-    contacts,
-  }
+  // state = {
+  //   contacts,
+  // }
 
   /*
   componentDidMount() {
@@ -73,11 +75,11 @@ export default class App extends React.Component {
   }
   */
 
-  addContact = newContact => {
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-    }))
-  }
+  // addContact = newContact => {
+  //   this.setState(prevState => ({
+  //     contacts: [...prevState.contacts, newContact],
+  //   }))
+  // }
 
   render() {
     return (
